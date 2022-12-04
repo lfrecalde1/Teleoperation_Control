@@ -1,4 +1,4 @@
-function [E] = Tele_system_E(X, h1, h2, t_final, L1_s, L2_s, L1_m, L2_m, qs, qm)
+function [E] = Tele_system_E(X, h1, h2, t_final, L1_s, L2_s, L1_m, L2_m, qs, qm, X_KP)
 
 %UNTITLED Summary of this function goes here
 % Time defintion variables
@@ -132,14 +132,14 @@ KP_force = kp_force*eye(2);
 KD_force = kv_force*eye(2);
 
 % Control slave gains
-kp_s = X(1);
-kv_s = X(2);
+kp_s = X_KP(1);
+kv_s = X(1);
 KP_s= kp_s*eye(2);
 KD_s = kv_s*eye(2);
 
 % Control master gains
-kp_m = X(3);
-kv_m = X(4);
+kp_m = X_KP(2);
+kv_m = X(2);
 KP_m= kp_m*eye(2);
 KD_m = kv_m*eye(2);
 

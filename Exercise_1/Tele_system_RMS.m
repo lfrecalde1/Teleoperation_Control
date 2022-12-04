@@ -61,7 +61,7 @@ xp_s(:, 1) = robot_s.get_general_velocities();
 x_m = zeros(2, length(t)+1);
 x_m_base = zeros(2, length(t)+1);
 xp_m = zeros(2, length(t)+1);
-x_m_0 = [3; 0];
+x_m_0 = [2; 0];
 x_m(:, 1) = x_m_0 + robot_m.get_general_position();
 xp_m(:, 1) = robot_m.get_general_velocities();
 

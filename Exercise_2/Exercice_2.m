@@ -8,8 +8,8 @@ clc, clear all, close all;
 X = [10;5.19584196883290;8.96488557076845;2.20120565239794];
 
 % System delay
-h1 = 0;
-h2 = 0;
+h1 = 0.5;
+h2 = 0.5;
 
 % Final time definition
 t_final = 40;
@@ -58,7 +58,7 @@ qm = [80*pi/180, 90*pi/180;...
            0, 0;...
            0, 0];
 
-initial = 2;
+initial = 1;
 % System simulation
 [q_s, q_m, q_s_delay, q_m_delay, x_s, x_m_base, x_s_delay, x_m_base_delay, xp_s, xp_m, xp_s_delay, xp_m_delay, he_m, he_s, RMSE_x_s, RMSE_y_s, t, u_cartesian_s, u_cartesian_m, x_m_0] = Tele_system_simu(X, h1, h2, t_final, L1_s, L2_s, L1_m, L2_m, qs(:,initial), qm(:, initial));
 
