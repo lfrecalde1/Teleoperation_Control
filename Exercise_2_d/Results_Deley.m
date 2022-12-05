@@ -4,7 +4,7 @@
 clc, clear all, close all;
 
 % Load Data of the system
-load("Data_Delay_a.mat")
+load("Data_Delay_d.mat")
 
 % Change dimentions in the variables
 q_m = q_m(:, 1:end-1);
@@ -228,7 +228,7 @@ ax_4.MinorGridAlpha = 0.15;
 ax_4.LineWidth = 0.8;
 
 set(gcf, 'Color', 'w'); % Sets axes background
-export_fig Results_delay_signals_a.pdf -q101
+export_fig Results_delay_signals_d.pdf -q101
 
 figure('Position', [500 500 sizeX sizeY])
 set(gcf, 'Position', [500 500 sizeX sizeY]);
@@ -304,7 +304,7 @@ ax_6.MinorGridAlpha = 0.15;
 ax_6.LineWidth = 0.8;
 
 set(gcf, 'Color', 'w'); % Sets axes background
-export_fig Results_delay_Torques_a.pdf -q101
+export_fig Results_delay_Torques_d.pdf -q101
 
 % Create Figure
 figure('Position', [500 500 sizeX sizeY])
@@ -432,7 +432,7 @@ ax_8.LineWidth = 0.8;
 ax_8.XLim = [-0.5 3.1];
 ax_8.YLim = [-1.8 1.8];
 set(gcf, 'Color', 'w'); % Sets axes background
-export_fig Results_Delay_Links_a.pdf -q101
+export_fig Results_Delay_Links_d.pdf -q101
 
 figure('Position', [500 500 sizeX sizeY])
 set(gcf, 'Position', [500 500 sizeX sizeY]);
@@ -471,4 +471,4 @@ ax_9.YLabel = hYLabel_9;
 %ax_9.XLim = [0.8 4.2];
 ax_9.LineWidth = 0.8;
 set(gcf, 'Color', 'w'); % Sets axes background
-export_fig Comparative_results_a.pdf -q101
+export_fig Comparative_results_d.pdf -q101

@@ -4,12 +4,13 @@
 clc, clear all, close all;
 % Gains slave and master
 
+load("Parameters.mat");
 % General vector of the variables Gains No delay
-X = [3.94014191427969;3.43669151142530;0.896799897417479;0.477142268540486];
+X = [3.94014191427969;chi(1);0.896799897417479;chi(2)];
 
 % System delay
-h1 = 0.0;
-h2 = 0.0;
+h1 = 1;
+h2 = 1;
 
 % Final time definition
 t_final = 40;
@@ -26,7 +27,6 @@ b2_s = 0;
 m2_s = 1.2;
 l2_s = 0.3;
 Iz2_s= 0.0;
-
 
 L1_s = [b1_s , m1_s, l1_s, Iz1_s];
 L2_s = [b2_s , m2_s, l2_s, Iz2_s];
@@ -94,6 +94,7 @@ C14 = [252 94 158]/255;
 C15 = [244 171 39]/255;
 C16 = [100 121 162]/255;
 C17 = [255 0 0]/255;
+
 figure('Position', [10 10 sizeX sizeY])
 set(gcf, 'PaperUnits', 'inches');
 set(gcf, 'PaperSize', [8.5 11]);
@@ -402,17 +403,5 @@ title({'(Velocity y)'},'fontsize',fontsizeTitel,'interpreter','latex')
 % set(gca,'Xticklabel',[])
 legend({'$\dot{y}_s(t-h_1)$','$\dot{y}_m{t-h_1}$'},'interpreter','latex','fontsize',fontsizeLegend)
 
-save("Data_No_Delay_1.mat", "q_s", "q_m", "q_s_delay", "q_m_delay", "x_s", "x_m_base", "x_s_delay", "x_m_base_delay", "xp_s", "xp_m", "xp_s_delay", "xp_m_delay", "he_m", "he_s", "RMSE_x_s", "RMSE_y_s", "t", "u_cartesian_s", "u_cartesian_m", "x_m_0", "L1_s", "L2_s", "L1_m", "L2_m");
+save("Data_Delay_d.mat", "q_s", "q_m", "q_s_delay", "q_m_delay", "x_s", "x_m_base", "x_s_delay", "x_m_base_delay", "xp_s", "xp_m", "xp_s_delay", "xp_m_delay", "he_m", "he_s", "RMSE_x_s", "RMSE_y_s", "t", "u_cartesian_s", "u_cartesian_m", "x_m_0", "L1_s", "L2_s", "L1_m", "L2_m");
 
-
-adress_c = fullfile("../Exercise_2_c/",  "RMSE_no_delay.mat");
-save(adress_c)
-
-adress_a = fullfile("../Exercise_2_a/",  "RMSE_no_delay.mat");
-save(adress_a)
-
-adress_b = fullfile("../Exercise_2_b/",  "RMSE_no_delay.mat");
-save(adress_b)
-
-adress_d = fullfile("../Exercise_2_d/",  "RMSE_no_delay.mat");
-save(adress_d)
