@@ -6,7 +6,7 @@ clc, clear all, close all;
 
 load("Parameters.mat");
 % General vector of the variables Gains No delay
-X = [3.94014191427969;chi(1);0.896799897417479;chi(2)];
+X = [2.41218473361655;3.94499729073964;1.96805547864400;1.05684211781156];
 
 % System delay
 h1 = 0.2;
@@ -60,7 +60,7 @@ qm = [80*pi/180, 90*pi/180;...
 
 initial = 1;
 % System simulation
-[q_s, q_m, q_s_delay, q_m_delay, x_s, x_m_base, x_s_delay, x_m_base_delay, xp_s, xp_m, xp_s_delay, xp_m_delay, he_m, he_s, RMSE_x_s, RMSE_y_s, t, u_cartesian_s, u_cartesian_m, x_m_0] = Tele_system_simu(X, h1, h2, t_final, L1_s, L2_s, L1_m, L2_m, qs(:,initial), qm(:, initial));
+[q_s, q_m, q_s_delay, q_m_delay, x_s, x_m_base, x_s_delay, x_m_base_delay, xp_s, xp_m, xp_s_delay, xp_m_delay, he_m, he_s, RMSE_x_s_real, RMSE_y_s_real, t, u_cartesian_s, u_cartesian_m, x_m_0, e_real] = Tele_system_simu(X, h1, h2, t_final, L1_s, L2_s, L1_m, L2_m, qs(:,initial), qm(:, initial));
 
 
 % Plot Results
@@ -403,5 +403,5 @@ title({'(Velocity y)'},'fontsize',fontsizeTitel,'interpreter','latex')
 % set(gca,'Xticklabel',[])
 legend({'$\dot{y}_s(t-h_1)$','$\dot{y}_m{t-h_1}$'},'interpreter','latex','fontsize',fontsizeLegend)
 
-save("Data_Delay_b.mat", "q_s", "q_m", "q_s_delay", "q_m_delay", "x_s", "x_m_base", "x_s_delay", "x_m_base_delay", "xp_s", "xp_m", "xp_s_delay", "xp_m_delay", "he_m", "he_s", "RMSE_x_s", "RMSE_y_s", "t", "u_cartesian_s", "u_cartesian_m", "x_m_0", "L1_s", "L2_s", "L1_m", "L2_m");
+save("Data_Delay_b_real.mat", "q_s", "q_m", "q_s_delay", "q_m_delay", "x_s", "x_m_base", "x_s_delay", "x_m_base_delay", "xp_s", "xp_m", "xp_s_delay", "xp_m_delay", "he_m", "he_s", "RMSE_x_s_real", "RMSE_y_s_real", "t", "u_cartesian_s", "u_cartesian_m", "x_m_0", "L1_s", "L2_s", "L1_m", "L2_m", "e_real");
 

@@ -5,7 +5,7 @@ clc, clear all, close all;
 % Gains slave and master
 
 % General vector of the variables Gains No delay
-X = [3.94014191427969;3.43669151142530;0.896799897417479;0.477142268540486];
+X = [2.41218473361655;3.94499729073964;1.96805547864400;1.05684211781156];
 
 % System delay
 h1 = 0.0;

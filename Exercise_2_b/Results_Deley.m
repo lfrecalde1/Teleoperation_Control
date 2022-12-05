@@ -4,7 +4,7 @@
 clc, clear all, close all;
 
 % Load Data of the system
-load("Data_Delay_b.mat")
+load("Data_Delay_b_new.mat")
 
 % Change dimentions in the variables
 q_m = q_m(:, 1:end-1);
@@ -434,19 +434,54 @@ ax_8.YLim = [-1.8 1.8];
 set(gcf, 'Color', 'w'); % Sets axes background
 export_fig Results_Delay_Links_b.pdf -q101
 
+%% Load Old Data
+load("Data_Delay_b_real.mat");
 figure('Position', [500 500 sizeX sizeY])
 set(gcf, 'Position', [500 500 sizeX sizeY]);
 fig1_comps.fig = gcf;
 
+axes('Position',[0.05 0.6 .42 0.35]);
+%% Data generation
+e_real_plot = line(t,e_real(1,:));
+set(e_real_plot, 'LineStyle', '-', 'Color', C16, 'LineWidth', 1.2*lw);
+e_new_plot = line(t,e_new(1,:));
+set(e_new_plot, 'LineStyle', '--', 'Color', C9, 'LineWidth', lw);
+
+
+% fig1_comps.p1 = ul_plot;
+%% Title of the image
+%hTitle_1 = title({'$\textrm{(c)}$'},'fontsize',14,'interpreter','latex','Color',C18);
+xlabel('$\textrm{Time}[s]$','fontsize',10,'interpreter','latex','Color',C18);
+ylabel('$[Error]$','fontsize',10,'interpreter','latex', 'Color',C18);
+
+%% Legend nomeclature
+hLegend_10 = legend([e_new_plot, e_real_plot],{'$||\tilde{\mathbf{x}}||_{Optimizacion}$','$||\tilde{\mathbf{x}}||_{Initial}$'},'fontsize',12,'interpreter','latex','Color',[255 255 255]/255,'Location','best','NumColumns',1,'TextColor','black');
+ set(gca,'ticklabelinterpreter','latex',...
+         'fontsize',fontsizeTicks)
+     
+%% Figure properties
+ax_10 = gca;
+ax_10.Box = 'on';
+ax_10.BoxStyle = 'full';
+ax_10.TickLength = [0.01;0.01];
+ax_10.TickDirMode = 'auto';
+ax_10.YMinorTick = 'on';
+ax_10.XMinorTick = 'on';
+ax_10.XMinorGrid = 'on';
+ax_10.YMinorGrid = 'on';
+
+%ax_1.MinorGridColor = '#8f8f8f';
+ax_10.MinorGridAlpha = 0.15;
+ax_10.LineWidth = 0.8;
+
 x = [1:1:2];
 
-axes('Position',[0.12 0.1 .5 .4]);
-ERROR = [RMSE_x_s; RMSE_y_s];
-load("RMSE_no_delay.mat");
-ERROR = [ERROR,[RMSE_x_s; RMSE_y_s]];
+axes('Position',[0.55 0.6 .42 0.35]);
+ERROR = [RMSE_x_s_new; RMSE_y_s_new];
+ERROR = [ERROR,[RMSE_x_s_real; RMSE_y_s_real]];
 bar(ERROR);
 
-legend({'$RMSE_{Delay}$','$RMSE_{No-Delay}$'},'fontsize',10,'interpreter','latex','Color',[255 255 255]/255,'TextColor','black')
+legend({'$RMSE_{Optimization}$','$RMSE_{Initial}$'},'fontsize',10,'interpreter','latex','Color',[255 255 255]/255,'TextColor','black')
 
 set(gca,'ticklabelinterpreter','latex',...
         'fontsize',fontsizeTicks)
@@ -470,5 +505,6 @@ ax_9.MinorGridAlpha = 0.15;
 ax_9.YLabel = hYLabel_9;
 %ax_9.XLim = [0.8 4.2];
 ax_9.LineWidth = 0.8;
+
 set(gcf, 'Color', 'w'); % Sets axes background
 export_fig Comparative_results_b.pdf -q101

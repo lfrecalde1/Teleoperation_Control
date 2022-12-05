@@ -1,4 +1,4 @@
-function [q_s, q_m, q_s_delay, q_m_delay, x_s, x_m_base, x_s_delay, x_m_base_delay, xp_s, xp_m, xp_s_delay, xp_m_delay, he_m, he_s, RMSE_x_s, RMSE_y_s, t, u_cartesian_s, u_cartesian_m, x_m_0] = Tele_system_simu(X, h1, h2, t_final, L1_s, L2_s, L1_m, L2_m, qs, qm)
+function [q_s, q_m, q_s_delay, q_m_delay, x_s, x_m_base, x_s_delay, x_m_base_delay, xp_s, xp_m, xp_s_delay, xp_m_delay, he_m, he_s, RMSE_x_s, RMSE_y_s, t, u_cartesian_s, u_cartesian_m, x_m_0, e] = Tele_system_simu(X, h1, h2, t_final, L1_s, L2_s, L1_m, L2_m, qs, qm)
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
 % Time defintion variables
@@ -225,6 +225,7 @@ for k = 1:length(t)
     he_s(1, k) = (x_m_base_delay(1, k) - x_s(1, k));
     he_s(2, k) = (x_m_base_delay(2, k) - x_s(2, k));
     
+    e(1, k) = norm(he_s(:, k));
     
     He_s = [He_s;he_s(:,k)];
 
