@@ -6,11 +6,12 @@ clc, clear all, close all;
 % Gains slave and master
 
 % General vector of the variables Gains No delay
-X = [1;1;1;1];
+X = [1;1];
+XP = [3.94014191427969;0.896799897417479];
 
 % System delay
-h1 = 0.0;
-h2 = 0.0;
+h1 = 0.2;
+h2 = 0.8;
 
 % Final time definition
 t_final = 40;
@@ -53,6 +54,7 @@ qs = [180*pi/180;...
            -30*pi/180;...
            0;...
            0];
+       
 % Initial Conditions Master
 qm = [80*pi/180;...
              10*pi/180;...
@@ -65,7 +67,7 @@ RMSE_yd = 0.095;
 % Optimization parameters
 options = optimset('Display','iter',...
                 'TolFun', 1e-8,...
-                'MaxIter', 20,...
+                'MaxIter', 10,...
                 'Algorithm', 'active-set',...
                 'FinDiffType', 'forward',...
                 'RelLineSrchBnd', [],...
@@ -73,14 +75,14 @@ options = optimset('Display','iter',...
                 'TolConSQP', 1e-8);   
             
 % Optimization Funtion Cost
-f_obj1 = @(x)Tele_system_E(x, h1, h2, t_final, L1_s, L2_s, L1_m, L2_m, qs, qm);
-f_obj2 = @(x)RMS_constraint(x, h1, h2, t_final, L1_s, L2_s, L1_m, L2_m, qs, qm, RMSE_xd, RMSE_yd);
+f_obj1 = @(x)Tele_system_E(x, h1, h2, t_final, L1_s, L2_s, L1_m, L2_m, qs, qm, XP);
+f_obj2 = @(x)RMS_constraint(x, h1, h2, t_final, L1_s, L2_s, L1_m, L2_m, qs, qm, RMSE_xd, RMSE_yd, XP);
 % Optimization restriccions
 
 % Limits Gains
-LB = [0.1;0.1;0.1;0.1];
-UB = [10;50;10;50];
+LB = [0.1;0.1];
+UB = [30;30];
 
 chi = fmincon(f_obj1,X,[],[],[],[],LB,UB,f_obj2,options);
 
-save("Parameters_No_delay.mat", "chi");
+save("Parameters.mat", "chi");

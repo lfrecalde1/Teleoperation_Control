@@ -1,6 +1,6 @@
-function [E] = Tele_system_E(X, h1, h2, t_final, L1_s, L2_s, L1_m, L2_m, qs, qm)
-
+function [q_s, q_m, q_s_delay, q_m_delay, x_s, x_m_base, x_s_delay, x_m_base_delay, xp_s, xp_m, xp_s_delay, xp_m_delay, he_m, he_s, RMSE_x_s, RMSE_y_s, t, u_cartesian_s, u_cartesian_m, x_m_0] = Tele_system_simu(X, h1, h2, t_final, L1_s, L2_s, L1_m, L2_m, qs, qm)
 %UNTITLED Summary of this function goes here
+%   Detailed explanation goes here
 % Time defintion variables
 t_s = 0.01;
 t = (0:t_s:t_final);
@@ -31,8 +31,6 @@ b2_s = L2_s(1);
 m2_s = L2_s(2);
 l2_s = L2_s(3);
 Iz2_s= L2_s(4);
-
-% Auxiliar rand
 
 % Initial conditions system slave       
 q_s = zeros(4, length(t)+1);
@@ -207,6 +205,7 @@ x_m_delay(:, 1:n_frames_m(1) + 1) = x_m(:, 1)*ones(1,n_frames_m + 1);
 xp_m_delay(:, 1:n_frames_m(1) + 1) = xp_m(:, 1)*ones(1,n_frames_m + 1);
 x_m_base_delay(:, 1:n_frames_m(1) + 1) = x_m_base(:, 1)*ones(1,n_frames_m + 1);
 
+
 % Control Effort
 U_s = [];
 U_m = [];
@@ -219,8 +218,6 @@ He_m = [];
 Qxp_m = [];
 Qxp_s = [];
 
-Qqp_m = [];
-Qqp_s = [];
 for k = 1:length(t)
     
     
@@ -239,9 +236,6 @@ for k = 1:length(t)
     % General vector Velocities
     Qxp_m = [Qxp_m;xp_m(:,k)];
     Qxp_s = [Qxp_s;xp_s(:,k)];
-    
-    Qqp_m = [Qqp_m; q_m(3:4,k)];
-    Qqp_s = [Qqp_s; q_s(3:4,k)];
     
     %Position Cartesian Space
     xe(:, k) = xd_i(:, k) - robot_s.get_general_position();
@@ -279,24 +273,16 @@ for k = 1:length(t)
          xp_m_delay(:, k + n_frames_m +1) = xp_m(:, k+1);
 
      end
+     
 
 end
 
 RMSE_x_s = sqrt(mean((he_s(1,:)).^2));
 RMSE_y_s = sqrt(mean((he_s(2,:)).^2));
 
-U_s_max = max(U_s);
-U_m_max = max(U_m);
+E = 0.1*(U_s'*U_s) + 0.1*(U_m'*U_m) + (He_m'*He_m) + (He_s'*He_s) + 0.7*(Qxp_m'*Qxp_m) + 0.7*(Qxp_s'*Qxp_s);
 
-U_s = U_s/U_s_max;
-U_m = U_m/U_m_max;
-
-Qqp_s_max = max(Qqp_s);
-Qqp_m_max = max(Qqp_m);
-
-Qqp_s = Qqp_s/Qqp_s_max;
-Qqp_m = Qqp_m/Qqp_m_max;
-E = 0.2*(U_s'*U_s) + 0.2*(U_m'*U_m) + (He_m'*He_m) + (He_s'*He_s) + 1*(Qxp_m'*Qxp_m) + 1*(Qxp_s'*Qxp_s) + 0.2*(Qqp_m'*Qqp_m) + 0.2*(Qqp_s'*Qqp_s);
-
+for k = 1:10:length(t)
+    drawpend2(q_s_delay(:, k), m1_s, m2_s, 0.3, l1_s, l2_s, q_m_delay(:, k), m1_m, m2_m, 0.3, l1_m, l2_m, x_m_0, x_enviroment_i(:, :), xd_i(:,k));
 end
-
+end

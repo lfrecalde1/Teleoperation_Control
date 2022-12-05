@@ -183,10 +183,12 @@ n_frames_s = delay_s/t_s;
 % Delay signals slave
 q_s_delay = zeros(4, length(t)+1);
 x_s_delay = zeros(2, length(t)+1);
+xp_s_delay = zeros(2, length(t)+1);
 
 % Initial Condition
 q_s_delay(:, 1:n_frames_s(1) + 1)  = q_s(:,1)*ones(1,n_frames_s + 1);
 x_s_delay(:, 1:n_frames_s(1) + 1) = x_s(:, 1)*ones(1,n_frames_s + 1);
+xp_s_delay(:, 1:n_frames_s(1) + 1) = xp_s(:, 1)*ones(1,n_frames_s + 1);
 
 % Delay m time definition
 delay_m = h1;
@@ -195,13 +197,14 @@ n_frames_m = delay_m/t_s;
 % Delay signals slave
 q_m_delay = zeros(4, length(t)+1);
 x_m_delay = zeros(2, length(t)+1);
+xp_m_delay = zeros(2, length(t)+1);
 x_m_base_delay = zeros(2, length(t)+1);
 
 % Initial Condition
 q_m_delay(:, 1:n_frames_m(1) + 1)  = q_m(:,1)*ones(1,n_frames_m + 1);
 x_m_delay(:, 1:n_frames_m(1) + 1) = x_m(:, 1)*ones(1,n_frames_m + 1);
+xp_m_delay(:, 1:n_frames_m(1) + 1) = xp_m(:, 1)*ones(1,n_frames_m + 1);
 x_m_base_delay(:, 1:n_frames_m(1) + 1) = x_m_base(:, 1)*ones(1,n_frames_m + 1);
-
 
 % Control Effort
 U_s = [];
@@ -215,6 +218,8 @@ He_m = [];
 Qxp_m = [];
 Qxp_s = [];
 
+Qqp_m = [];
+Qqp_s = [];
 for k = 1:length(t)
     
     
@@ -233,6 +238,9 @@ for k = 1:length(t)
     % General vector Velocities
     Qxp_m = [Qxp_m;xp_m(:,k)];
     Qxp_s = [Qxp_s;xp_s(:,k)];
+    
+    Qqp_m = [Qqp_m; q_m(3:4,k)];
+    Qqp_s = [Qqp_s; q_s(3:4,k)];
     
     %Position Cartesian Space
     xe(:, k) = xd_i(:, k) - robot_s.get_general_position();
@@ -257,23 +265,26 @@ for k = 1:length(t)
     xp_m(:, k+1) = robot_m.get_general_velocities();
     
     % Delay system 
+    % Delay system 
      if k + n_frames_s < (length(t)+ 1)
         q_s_delay(:, k + n_frames_s + 1) = q_s(:, k + 1); 
-        x_s_delay(:, k + n_frames_s + 1) = x_s(:, k + 1); 
+        x_s_delay(:, k + n_frames_s + 1) = x_s(:, k + 1);
+        xp_s_delay(:, k + n_frames_s +1) = xp_s(:, k+1);
      end
      
      if k + n_frames_m < (length(t)+ 1)
          q_m_delay(:, k + n_frames_m + 1) = q_m(:, k + 1);
          x_m_delay(:, k + n_frames_m + 1) = x_m(:, k + 1);
          x_m_base_delay(:, k + n_frames_m + 1) = x_m_base(:, k+1);
+         xp_m_delay(:, k + n_frames_m +1) = xp_m(:, k+1);
+
      end
-     
 
 end
 
 RMSE_x_s = sqrt(mean((he_s(1,:)).^2));
 RMSE_y_s = sqrt(mean((he_s(2,:)).^2));
 
-E = 0.1*(U_s'*U_s) + 0.1*(U_m'*U_m) + (He_m'*He_m) + (He_s'*He_s) + 1*(Qxp_m'*Qxp_m) + 1*(Qxp_s'*Qxp_s);
+E = 0.2*(U_s'*U_s) + 0.2*(U_m'*U_m) + (He_m'*He_m) + (He_s'*He_s) + 1*(Qxp_m'*Qxp_m) + 1*(Qxp_s'*Qxp_s) + 1*(Qqp_m'*Qqp_m) + 1*(Qqp_s'*Qqp_s);
 
 end

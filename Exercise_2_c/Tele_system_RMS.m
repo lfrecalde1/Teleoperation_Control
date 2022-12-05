@@ -1,4 +1,4 @@
-function [E] = Tele_system_E(X, h1, h2, t_final, L1_s, L2_s, L1_m, L2_m, qs, qm)
+function [RMSE_x_s, RMSE_y_s] = Tele_system_RMS(X, h1, h2, t_final, L1_s, L2_s, L1_m, L2_m, qs, qm, XP)
 
 %UNTITLED Summary of this function goes here
 % Time defintion variables
@@ -41,7 +41,6 @@ q_s(:, 1) = qs;
 % Initial conditions system master       
 q_m = zeros(4, length(t)+1);
 q_m(:, 1) = qm;
-       
        
 % Constant defintion
 constans = [g, t_s];
@@ -132,14 +131,14 @@ KP_force = kp_force*eye(2);
 KD_force = kv_force*eye(2);
 
 % Control slave gains
-kp_s = X(1);
-kv_s = X(2);
+kp_s = XP(1);
+kv_s = X(1);
 KP_s= kp_s*eye(2);
 KD_s = kv_s*eye(2);
 
 % Control master gains
-kp_m = X(3);
-kv_m = X(4);
+kp_m = XP(2);
+kv_m = X(2);
 KP_m= kp_m*eye(2);
 KD_m = kv_m*eye(2);
 
@@ -221,6 +220,7 @@ Qxp_s = [];
 
 Qqp_m = [];
 Qqp_s = [];
+
 for k = 1:length(t)
     
     
@@ -237,11 +237,11 @@ for k = 1:length(t)
     He_m = [He_m;he_m(:,k)];
     
     % General vector Velocities
-    Qxp_m = [Qxp_m;xp_m(:,k)];
-    Qxp_s = [Qxp_s;xp_s(:,k)];
+    Qxp_m = [Qxp_m;xp_m_delay(:,k)];
+    Qxp_s = [Qxp_s;xp_s_delay(:,k)];
     
-    Qqp_m = [Qqp_m; q_m(3:4,k)];
-    Qqp_s = [Qqp_s; q_s(3:4,k)];
+    Qqp_m = [Qqp_m; q_m_delay(3:4,k)];
+    Qqp_s = [Qqp_s; q_s_delay(3:4,k)];
     
     %Position Cartesian Space
     xe(:, k) = xd_i(:, k) - robot_s.get_general_position();
@@ -266,6 +266,7 @@ for k = 1:length(t)
     xp_m(:, k+1) = robot_m.get_general_velocities();
     
     % Delay system 
+    % Delay system 
      if k + n_frames_s < (length(t)+ 1)
         q_s_delay(:, k + n_frames_s + 1) = q_s(:, k + 1); 
         x_s_delay(:, k + n_frames_s + 1) = x_s(:, k + 1);
@@ -285,18 +286,6 @@ end
 RMSE_x_s = sqrt(mean((he_s(1,:)).^2));
 RMSE_y_s = sqrt(mean((he_s(2,:)).^2));
 
-U_s_max = max(U_s);
-U_m_max = max(U_m);
-
-U_s = U_s/U_s_max;
-U_m = U_m/U_m_max;
-
-Qqp_s_max = max(Qqp_s);
-Qqp_m_max = max(Qqp_m);
-
-Qqp_s = Qqp_s/Qqp_s_max;
-Qqp_m = Qqp_m/Qqp_m_max;
-E = 0.2*(U_s'*U_s) + 0.2*(U_m'*U_m) + (He_m'*He_m) + (He_s'*He_s) + 1*(Qxp_m'*Qxp_m) + 1*(Qxp_s'*Qxp_s) + 0.2*(Qqp_m'*Qqp_m) + 0.2*(Qqp_s'*Qqp_s);
+E = 0.2*(U_s'*U_s) + 0.2*(U_m'*U_m) + (He_m'*He_m) + (He_s'*He_s) + 1*(Qxp_m'*Qxp_m) + 1*(Qxp_s'*Qxp_s) + 0.5*(Qqp_m'*Qqp_m) + 0.5*(Qqp_s'*Qqp_s);
 
 end
-

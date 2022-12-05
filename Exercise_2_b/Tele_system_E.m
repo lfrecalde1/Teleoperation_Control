@@ -1,4 +1,4 @@
-function [E] = Tele_system_E(X, h1, h2, t_final, L1_s, L2_s, L1_m, L2_m, qs, qm)
+function [E] = Tele_system_E(X, h1, h2, t_final, L1_s, L2_s, L1_m, L2_m, qs, qm, XP)
 
 %UNTITLED Summary of this function goes here
 % Time defintion variables
@@ -132,14 +132,14 @@ KP_force = kp_force*eye(2);
 KD_force = kv_force*eye(2);
 
 % Control slave gains
-kp_s = X(1);
-kv_s = X(2);
+kp_s = XP(1);
+kv_s = X(1);
 KP_s= kp_s*eye(2);
 KD_s = kv_s*eye(2);
 
 % Control master gains
-kp_m = X(3);
-kv_m = X(4);
+kp_m = XP(2);
+kv_m = X(2);
 KP_m= kp_m*eye(2);
 KD_m = kv_m*eye(2);
 
@@ -269,14 +269,14 @@ for k = 1:length(t)
      if k + n_frames_s < (length(t)+ 1)
         q_s_delay(:, k + n_frames_s + 1) = q_s(:, k + 1); 
         x_s_delay(:, k + n_frames_s + 1) = x_s(:, k + 1);
-        xp_s_delay(:, k + n_frames_s +1) = xp_s(:, k+1);
+        xp_s_delay(:, k + n_frames_s +1) = xp_s(:, k + 1);
      end
      
      if k + n_frames_m < (length(t)+ 1)
          q_m_delay(:, k + n_frames_m + 1) = q_m(:, k + 1);
          x_m_delay(:, k + n_frames_m + 1) = x_m(:, k + 1);
-         x_m_base_delay(:, k + n_frames_m + 1) = x_m_base(:, k+1);
-         xp_m_delay(:, k + n_frames_m +1) = xp_m(:, k+1);
+         x_m_base_delay(:, k + n_frames_m + 1) = x_m_base(:, k + 1);
+         xp_m_delay(:, k + n_frames_m +1) = xp_m(:, k + 1);
 
      end
 
@@ -296,7 +296,7 @@ Qqp_m_max = max(Qqp_m);
 
 Qqp_s = Qqp_s/Qqp_s_max;
 Qqp_m = Qqp_m/Qqp_m_max;
-E = 0.2*(U_s'*U_s) + 0.2*(U_m'*U_m) + (He_m'*He_m) + (He_s'*He_s) + 1*(Qxp_m'*Qxp_m) + 1*(Qxp_s'*Qxp_s) + 0.2*(Qqp_m'*Qqp_m) + 0.2*(Qqp_s'*Qqp_s);
+E = 0.2*(U_s'*U_s) + 0.2*(U_m'*U_m) + (He_m'*He_m) + (He_s'*He_s) + 1*(Qxp_m'*Qxp_m) + 1*(Qxp_s'*Qxp_s) + 0.5*(Qqp_m'*Qqp_m) + 0.5*(Qqp_s'*Qqp_s);
 
 end
 
