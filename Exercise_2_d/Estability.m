@@ -8,8 +8,8 @@ load("Parameters.mat");
 X = [2.41218473361655;chi(1);1.96805547864400;chi(2)];
 
 % Delay System
-h_1 = 0.5;
-h_2 = 0.5;
+h_1 = 1;
+h_2 = 1;
 
 % Split System variables
 Kg = 1;

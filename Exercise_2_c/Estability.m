@@ -5,11 +5,11 @@ clc, clear all, close all
 load("Parameters.mat");
 
 % System gains
-X = [3.94;chi(1);0.89;chi(2)];
+X = [2.41218473361655;chi(1);1.96805547864400;chi(2)];
 
 % Delay System
-h_1 = 0.2;
-h_2 = 0.8;
+h_1 = 0.8;
+h_2 = 0.2;
 
 % Split System variables
 Kg = 1;

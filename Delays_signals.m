@@ -11,8 +11,8 @@ t = (0:t_s:t_final);
 % Real  Signal
 signal = cos([t t(end)+t_s])';
 
-delay = 0.5 + 0.5*sin([t t(end)+t_s]);
-
+delay = 0.5 + 0.4*sin(2*[t t(end)+t_s]);
+% delay = 1*ones(1, length(t)+1);
 delay = delay_varying_time(delay,t);
 n_frames = delay/t_s;
 % Delay Signal
@@ -22,7 +22,7 @@ signal_custom_delay = zeros(1, length(t)+1);
 
 % Initial Condition
 signal_custom_delay(:, 1:n_frames(1)+1)  = signal(1,:);
-
+signal = signal';
 for k = 1:length(t)
     
     
