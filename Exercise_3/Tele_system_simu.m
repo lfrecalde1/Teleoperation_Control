@@ -250,7 +250,7 @@ KD_h = kv_h*eye(2);
 % Enviroments Gains
 Ke = 30*eye(2);
 Ke(2,2) = 0;
-alpha_e = 0.05*eye(2);
+alpha_e = 0.1*eye(2);
 
 % enviroment
 x_enviroment = [0.5*ones(1, length(t));...

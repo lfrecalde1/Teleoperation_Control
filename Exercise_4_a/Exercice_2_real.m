@@ -13,8 +13,8 @@ t_final = 40;
 t_s = 0.01;
 t = (0:t_s:t_final);
 
-signal_h1 = 0*ones(1, length(t)+1);
-signal_h2 = 0*ones(1, length(t)+1);
+signal_h1 = 0.5*ones(1, length(t)+1);
+signal_h2 = 0.5*ones(1, length(t)+1);
 
 signal_h1 = delay_varying_time(signal_h1,t);
 signal_h2 = delay_varying_time(signal_h2,t);
@@ -71,8 +71,14 @@ qm = [198*pi/180, 90*pi/180;...
            0, 0];
 
 initial = 1;
+
+% Operator Gains
+kp_h = 5;
+
+% Enviroment gains
+kp_e = 30;
 % System simulation
-[q_s, q_m, q_s_delay, q_m_delay, x_s, x_m_base, x_s_delay, x_m_base_delay, xp_s, xp_m, xp_s_delay, xp_m_delay, he_m, he_s, RMSE_x_s_real, RMSE_y_s_real, t, u_cartesian_s, u_cartesian_m, x_m_0, e_real, F_h_real, F_enviroment_real, xd_i] = Tele_system_simu(X, h1, h2, t, t_s, L1_s, L2_s, L1_m, L2_m, qs(:, initial), qm(:, initial));
+[q_s, q_m, q_s_delay, q_m_delay, x_s, x_m_base, x_s_delay, x_m_base_delay, xp_s, xp_m, xp_s_delay, xp_m_delay, he_m, he_s, RMSE_x_s_real, RMSE_y_s_real, t, u_cartesian_s, u_cartesian_m, x_m_0, e_real, F_h_real, F_enviroment_real, xd_i, x_enviroment_i] = Tele_system_simu(X, h1, h2, t, t_s, L1_s, L2_s, L1_m, L2_m, qs(:, initial), qm(:, initial), kp_h, kp_e);
 
 % Plot Results
 % Plot properties
@@ -86,7 +92,7 @@ fontsizeTitel = 9;
 sizeX = 900; % size figure
 sizeY = 300; % size figure
 
-% color propreties
+% Color propreties
 C1 = [246 170 141]/255;
 C2 = [51 187 238]/255;
 C3 = [0 153 136]/255;
@@ -414,5 +420,5 @@ title({'(Velocity y)'},'fontsize',fontsizeTitel,'interpreter','latex')
 % set(gca,'Xticklabel',[])
 legend({'$\dot{y}_s(t-h_1)$','$\dot{y}_m{t-h_1}$'},'interpreter','latex','fontsize',fontsizeLegend)
 
-save("Data_Delay_3_real.mat", "q_s", "q_m", "q_s_delay", "q_m_delay", "x_s", "x_m_base", "x_s_delay", "x_m_base_delay", "xp_s", "xp_m", "xp_s_delay", "xp_m_delay", "he_m", "he_s", "RMSE_x_s_real", "RMSE_y_s_real", "t", "u_cartesian_s", "u_cartesian_m", "x_m_0", "L1_s", "L2_s", "L1_m", "L2_m", "e_real", "signal_h1", "signal_h2", "F_h_real", "F_enviroment_real");
+save("Data_Delay_3_real.mat", "q_s", "q_m", "q_s_delay", "q_m_delay", "x_s", "x_m_base", "x_s_delay", "x_m_base_delay", "xp_s", "xp_m", "xp_s_delay", "xp_m_delay", "he_m", "he_s", "RMSE_x_s_real", "RMSE_y_s_real", "t", "u_cartesian_s", "u_cartesian_m", "x_m_0", "L1_s", "L2_s", "L1_m", "L2_m", "e_real", "signal_h1", "signal_h2", "F_h_real", "F_enviroment_real", "xd_i", "x_enviroment_i");
 

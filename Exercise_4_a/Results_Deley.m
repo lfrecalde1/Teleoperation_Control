@@ -4,7 +4,7 @@
 clc, clear all, close all;
 
 % Load Data of the system
-load("Data_Delay_3_real.mat")
+load("Data_Delay_3_new.mat")
 
 % Change dimentions in the variables
 q_m = q_m(:, 1:end-1);
@@ -469,9 +469,9 @@ fig1_comps.fig = gcf;
 
 axes('Position',[0.05 0.6 .42 0.35]);
 %% Data generation
-Fh_1_plot = line(t,F_h_real(1,:));
+Fh_1_plot = line(t,F_h_new(1,:));
 set(Fh_1_plot, 'LineStyle', '-', 'Color', C16, 'LineWidth', 1.2*lw);
-Fh_2_plot = line(t,F_h_real(2,:));
+Fh_2_plot = line(t,F_h_new(2,:));
 set(Fh_2_plot, 'LineStyle', '--', 'Color', C9, 'LineWidth', lw);
 
 
@@ -504,9 +504,9 @@ ax_9.LineWidth = 0.8;
 axes('Position',[0.52 0.6 .42 0.35]);
 %% Data generation
 
-F_e_1_plot = line(t,F_enviroment_real(1,1:length(t)));
+F_e_1_plot = line(t,F_enviroment_new(1,1:length(t)));
 set(F_e_1_plot, 'LineStyle', '-', 'Color', C12, 'LineWidth', 1.2*lw);
-F_e_2_plot = line(t,F_enviroment_real(2,1:length(t)));
+F_e_2_plot = line(t,F_enviroment_new(2,1:length(t)));
 set(F_e_2_plot, 'LineStyle', '--', 'Color', C9, 'LineWidth', lw);
 
 
@@ -538,6 +538,83 @@ ax_10.LineWidth = 0.8;
 
 set(gcf, 'Color', 'w'); % Sets axes background
 export_fig Results_delay_Forces_3.pdf -q101
+
+figure('Position', [500 500 sizeX sizeY])
+set(gcf, 'Position', [500 500 sizeX sizeY]);
+fig1_comps.fig = gcf;
+
+axes('Position',[0.05 0.6 .42 0.35]);
+%% Data generation
+Fhe_1_plot = line(t,F_h_new(1,:)-F_enviroment_new(1,1:length(t)));
+set(Fhe_1_plot, 'LineStyle', '-', 'Color', C16, 'LineWidth', 1.2*lw);
+% Fh_2_plot = line(t,F_h_real(2,:));
+% set(Fh_2_plot, 'LineStyle', '--', 'Color', C9, 'LineWidth', lw);
+% 
+
+% fig1_comps.p1 = ul_plot;
+%% Title of the image
+%hTitle_1 = title({'$\textrm{(c)}$'},'fontsize',14,'interpreter','latex','Color',C18);
+xlabel('$\textrm{Time}[s]$','fontsize',10,'interpreter','latex','Color',C18);
+ylabel('$[N]$','fontsize',10,'interpreter','latex', 'Color',C18);
+
+%% Legend nomeclature
+hLegend_5 = legend([Fhe_1_plot],{'$\tilde{f}_x$'},'fontsize',12,'interpreter','latex','Color',[255 255 255]/255,'Location','best','NumColumns',1,'TextColor','black');
+ set(gca,'ticklabelinterpreter','latex',...
+         'fontsize',fontsizeTicks)
+     
+%% Figure properties
+ax_9 = gca;
+ax_9.Box = 'on';
+ax_9.BoxStyle = 'full';
+ax_9.TickLength = [0.01;0.01];
+ax_9.TickDirMode = 'auto';
+ax_9.YMinorTick = 'on';
+ax_9.XMinorTick = 'on';
+ax_9.XMinorGrid = 'on';
+ax_9.YMinorGrid = 'on';
+
+%ax_1.MinorGridColor = '#8f8f8f';
+ax_9.MinorGridAlpha = 0.15;
+ax_9.LineWidth = 0.8;
+
+axes('Position',[0.52 0.6 .42 0.35]);
+%% Data generation
+
+Fhe_2_plot  = line(t,F_h_new(2,:)-F_enviroment_new(2,1:length(t)));
+set(Fhe_2_plot , 'LineStyle', '-', 'Color', C12, 'LineWidth', 1.2*lw);
+% F_e_2_plot = line(t,F_enviroment_real(2,1:length(t)));
+% set(F_e_2_plot, 'LineStyle', '--', 'Color', C9, 'LineWidth', lw);
+
+
+% fig1_comps.p1 = ul_plot;
+%% Title of the image
+%hTitle_1 = title({'$\textrm{(c)}$'},'fontsize',14,'interpreter','latex','Color',C18);
+xlabel('$\textrm{Time}[s]$','fontsize',10,'interpreter','latex','Color',C18);
+ylabel('$[N]$','fontsize',10,'interpreter','latex', 'Color',C18);
+
+%% Legend nomeclature
+hLegend_6 = legend([Fhe_2_plot],{'$\tilde{f}_y$'},'fontsize',12,'interpreter','latex','Color',[255 255 255]/255,'Location','best','NumColumns',1,'TextColor','black');
+ set(gca,'ticklabelinterpreter','latex',...
+         'fontsize',fontsizeTicks)
+     
+%% Figure properties
+ax_10 = gca;
+ax_10.Box = 'on';
+ax_10.BoxStyle = 'full';
+ax_10.TickLength = [0.01;0.01];
+ax_10.TickDirMode = 'auto';
+ax_10.YMinorTick = 'on';
+ax_10.XMinorTick = 'on';
+ax_10.XMinorGrid = 'on';
+ax_10.YMinorGrid = 'on';
+
+%ax_1.MinorGridColor = '#8f8f8f';
+ax_10.MinorGridAlpha = 0.15;
+ax_10.LineWidth = 0.8;
+
+set(gcf, 'Color', 'w'); % Sets axes background
+export_fig Results_delay_Error_Forces_3.pdf -q101
+
 %% Load Old Data
 load("Data_Delay_3_real.mat");
 figure('Position', [500 500 sizeX sizeY])
@@ -559,7 +636,7 @@ xlabel('$\textrm{Time}[s]$','fontsize',10,'interpreter','latex','Color',C18);
 ylabel('$[Error]$','fontsize',10,'interpreter','latex', 'Color',C18);
 
 %% Legend nomeclature
-hLegend_10 = legend([e_new_plot, e_real_plot],{'$||\tilde{\mathbf{x}}||_{Optimizacion}$','$||\tilde{\mathbf{x}}||_{Initial}$'},'fontsize',12,'interpreter','latex','Color',[255 255 255]/255,'Location','best','NumColumns',1,'TextColor','black');
+hLegend_10 = legend([e_real_plot, e_new_plot],{'$||\tilde{\mathbf{x}}||_{Optimization}$','$||\tilde{\mathbf{x}}||_{Initial}$'},'fontsize',12,'interpreter','latex','Color',[255 255 255]/255,'Location','best','NumColumns',1,'TextColor','black');
  set(gca,'ticklabelinterpreter','latex',...
          'fontsize',fontsizeTicks)
      
@@ -612,76 +689,3 @@ ax_9.LineWidth = 0.8;
 
 set(gcf, 'Color', 'w'); % Sets axes background
 export_fig Comparative_results_3.pdf -q101
-
-% figure('Position', [500 500 sizeX sizeY])
-% set(gcf, 'Position', [500 500 sizeX sizeY]);
-% fig1_comps.fig = gcf;
-% 
-% axes('Position',[0.05 0.6 .42 0.35]);
-% %% Data generation
-% h1_plot = line(t,signal_h1(1,1:length(t)));
-% set(h1_plot, 'LineStyle', '-', 'Color', C16, 'LineWidth', 1.2*lw);
-% 
-% 
-% % fig1_comps.p1 = ul_plot;
-% %% Title of the image
-% %hTitle_1 = title({'$\textrm{(c)}$'},'fontsize',14,'interpreter','latex','Color',C18);
-% xlabel('$\textrm{Time}[s]$','fontsize',10,'interpreter','latex','Color',C18);
-% ylabel('$[Delay[s]]$','fontsize',10,'interpreter','latex', 'Color',C18);
-% 
-% %% Legend nomeclature
-% hLegend_10 = legend([h1_plot],{'$h_1(t)$'},'fontsize',12,'interpreter','latex','Color',[255 255 255]/255,'Location','best','NumColumns',1,'TextColor','black');
-%  set(gca,'ticklabelinterpreter','latex',...
-%          'fontsize',fontsizeTicks)
-     
-% %% Figure properties
-% ax_10 = gca;
-% ax_10.Box = 'on';
-% ax_10.BoxStyle = 'full';
-% ax_10.TickLength = [0.01;0.01];
-% ax_10.TickDirMode = 'auto';
-% ax_10.YMinorTick = 'on';
-% ax_10.XMinorTick = 'on';
-% ax_10.XMinorGrid = 'on';
-% ax_10.YMinorGrid = 'on';
-% 
-% %ax_1.MinorGridColor = '#8f8f8f';
-% ax_10.MinorGridAlpha = 0.15;
-% ax_10.LineWidth = 0.8;
-% 
-% axes('Position',[0.52 0.6 .42 0.35]);
-% %% Data generation
-% 
-% h2_plot = line(t,signal_h2(1,1:length(t)));
-% set(h2_plot, 'LineStyle', '-', 'Color', C16, 'LineWidth', 1.2*lw);
-% 
-% 
-% 
-% % fig1_comps.p1 = ul_plot;
-% %% Title of the image
-% %hTitle_1 = title({'$\textrm{(c)}$'},'fontsize',14,'interpreter','latex','Color',C18);
-% xlabel('$\textrm{Time}[s]$','fontsize',10,'interpreter','latex','Color',C18);
-% ylabel('$Delay[s]$','fontsize',10,'interpreter','latex', 'Color',C18);
-% 
-% %% Legend nomeclature
-% hLegend_11 = legend([h2_plot],{'$h_2(t)$'},'fontsize',12,'interpreter','latex','Color',[255 255 255]/255,'Location','best','NumColumns',1,'TextColor','black');
-%  set(gca,'ticklabelinterpreter','latex',...
-%          'fontsize',fontsizeTicks)
-%      
-% %% Figure properties
-% ax_11 = gca;
-% ax_11.Box = 'on';
-% ax_11.BoxStyle = 'full';
-% ax_11.TickLength = [0.01;0.01];
-% ax_11.TickDirMode = 'auto';
-% ax_11.YMinorTick = 'on';
-% ax_11.XMinorTick = 'on';
-% ax_11.XMinorGrid = 'on';
-% ax_11.YMinorGrid = 'on';
-% 
-% %ax_1.MinorGridColor = '#8f8f8f';
-% ax_11.MinorGridAlpha = 0.15;
-% ax_11.LineWidth = 0.8;
-% 
-% set(gcf, 'Color', 'w'); % Sets axes background
-% export_fig Delay_h.pdf -q101

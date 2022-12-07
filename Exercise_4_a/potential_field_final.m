@@ -6,7 +6,7 @@ j = size(obs,2);
 V = [];
 for k = 1:1:j
     aux = exp(distance(h,obs(:,k)));
-    V = -[V;*aux];
+    V = -[V;0.8*aux];
 end
 minimum=min(V);
 index = find(V == minimum);
