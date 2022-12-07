@@ -12,8 +12,8 @@ t_final = 40;
 t_s = 0.01;
 t = (0:t_s:t_final);
 
-signal_h1 = 0.5 + signals_generator_cos([t t(end)+t_s],0.5,0.1);
-signal_h2 = 0.5 - signals_generator_cos([t t(end)+t_s],0.5,0.1);
+signal_h1 = 1 + signals_generator_sin([t t(end)+t_s],0.5,0.1);
+signal_h2 = 1 - signals_generator_sin([t t(end)+t_s],0.5,0.1);
 
 signal_h1 = delay_varying_time(signal_h1,t);
 signal_h2 = delay_varying_time(signal_h2,t);
@@ -26,7 +26,7 @@ h2_max = max(signal_h2);
 Kg = 1;
 Ks = X(1);
 Km = X(3);
-alpha_s = X(2);
+alpha_s = X(2)+0.1;
 alpha_m = X(4);
 
 value_1 = -alpha_m*Kg + h1_max + (h2_max/4)*(Ks^2)*(Kg^2)

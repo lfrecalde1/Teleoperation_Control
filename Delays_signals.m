@@ -11,10 +11,10 @@ t = (0:t_s:t_final);
 % Real  Signal
 signal = cos([t t(end)+t_s])';
 
-delay = 0.5 + 0.4*sin(2*[t t(end)+t_s]);
+delay = 0.5 + 0.5*sin(2*[t t(end)+t_s]);
 % delay = 1*ones(1, length(t)+1);
 delay = delay_varying_time(delay,t);
-n_frames = delay/t_s;
+n_frames = round(delay/t_s);
 % Delay Signal
 signal_delay = delayseq(signal, delay, 1/t_s);
 

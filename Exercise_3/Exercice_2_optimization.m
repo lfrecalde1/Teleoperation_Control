@@ -14,8 +14,8 @@ t_final = 40;
 t_s = 0.01;
 t = (0:t_s:t_final);
 
-signal_h1 = 0.5 + signals_generator_sin([t t(end)+t_s],0.5,0.1);
-signal_h2 = 0.5 - signals_generator_sin([t t(end)+t_s],0.5,0.1);
+signal_h1 = 0*ones(1, length(t)+1);
+signal_h2 = 0*ones(1, length(t)+1);
 
 signal_h1 = delay_varying_time(signal_h1,t);
 signal_h2 = delay_varying_time(signal_h2,t);
@@ -24,8 +24,8 @@ h1_max = max(signal_h1);
 h2_max = max(signal_h2);
 
 % System delay
-h1 = h1_max*ones(1, length(t) + 1);
-h2 = h2_max*ones(1, length(t) + 1);
+h1 = 0*ones(1, length(t) + 1);
+h2 = 0*ones(1, length(t) + 1);
 
 % Phisycal parameters
 b1_s = 0;

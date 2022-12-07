@@ -7,7 +7,7 @@ clc, clear all, close all;
 load("Parameters.mat");
 % General vector of the variables Gains No delay
 %X = [3.94014191427969;chi(1);0.896799897417479;chi(2)];
-X = [2.41218473361655;chi(1);1.96805547864400;chi(2)];
+X = [2.41218473361655;chi(1)+0.1;1.96805547864400;chi(2)];
 
 % Time definition
 t_final = 40;
@@ -15,8 +15,8 @@ t_s = 0.01;
 t = (0:t_s:t_final);
 
 % System delay
-signal_h1 = 0.5 + signals_generator_sin([t t(end)+t_s],0.5,0.1);
-signal_h2 = 0.5 - signals_generator_sin([t t(end)+t_s],0.5,0.1);
+signal_h1 = 1 + signals_generator_sin([t t(end)+t_s],0.5,0.1);
+signal_h2 = 1 - signals_generator_sin([t t(end)+t_s],0.5,0.1);
 
 signal_h1 = delay_varying_time(signal_h1,t);
 signal_h2 = delay_varying_time(signal_h2,t);
@@ -415,5 +415,5 @@ title({'(Velocity y)'},'fontsize',fontsizeTitel,'interpreter','latex')
 % set(gca,'Xticklabel',[])
 legend({'$\dot{y}_s(t-h_1)$','$\dot{y}_m{t-h_1}$'},'interpreter','latex','fontsize',fontsizeLegend)
 
-save("Data_Delay_g_new.mat", "q_s", "q_m", "q_s_delay", "q_m_delay", "x_s", "x_m_base", "x_s_delay", "x_m_base_delay", "xp_s", "xp_m", "xp_s_delay", "xp_m_delay", "he_m", "he_s", "RMSE_x_s_new", "RMSE_y_s_new", "t", "u_cartesian_s", "u_cartesian_m", "x_m_0", "L1_s", "L2_s", "L1_m", "L2_m", "e_new", "signal_h1", "signal_h2");
+save("Data_Delay_h_new.mat", "q_s", "q_m", "q_s_delay", "q_m_delay", "x_s", "x_m_base", "x_s_delay", "x_m_base_delay", "xp_s", "xp_m", "xp_s_delay", "xp_m_delay", "he_m", "he_s", "RMSE_x_s_new", "RMSE_y_s_new", "t", "u_cartesian_s", "u_cartesian_m", "x_m_0", "L1_s", "L2_s", "L1_m", "L2_m", "e_new", "signal_h1", "signal_h2");
 
