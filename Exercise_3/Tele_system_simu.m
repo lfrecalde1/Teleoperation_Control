@@ -292,7 +292,9 @@ for k = 1:length(t)
     he_s(1, k) = (x_m_base_delay(1, k) - x_s(1, k));
     he_s(2, k) = (x_m_base_delay(2, k) - x_s(2, k));
     
-    e(1, k) = norm(he_s(:, k));
+    he(:, k) = x_m_base(:, k) -x_s(:, k);
+    
+    e(1, k) = norm(he(:, k));
     
     He_s = [He_s;he_s(:,k)];
 

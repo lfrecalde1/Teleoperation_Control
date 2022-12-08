@@ -224,10 +224,10 @@ for k = 1:length(t)
     he_s(1, k) = (x_m_base_delay(1, k) - x_s(1, k));
     he_s(2, k) = (x_m_base_delay(2, k) - x_s(2, k));
     
-    e(1, k) = norm(he_s(:, k));
+    he(:, k) = x_m_base(:, k) -x_s(:, k);
     
-    He_s = [He_s;he_s(:,k)];
-
+    e(1, k) = norm(he(:, k));
+    
     he_m(1, k) = (x_s_delay(1, k) - x_m_base(1, k));
     he_m(2, k) = (x_s_delay(2, k) - x_m_base(2, k));
 
@@ -277,8 +277,8 @@ for k = 1:length(t)
 
 end
 
-RMSE_x_s = sqrt(mean((he_s(1,:)).^2));
-RMSE_y_s = sqrt(mean((he_s(2,:)).^2));
+RMSE_x_s = sqrt(mean((he(1,:)).^2));
+RMSE_y_s = sqrt(mean((he(2,:)).^2));
 
 E = 0.1*(U_s'*U_s) + 0.1*(U_m'*U_m) + (He_m'*He_m) + (He_s'*He_s) + 0.7*(Qxp_m'*Qxp_m) + 0.7*(Qxp_s'*Qxp_s);
 

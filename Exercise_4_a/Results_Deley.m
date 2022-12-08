@@ -636,7 +636,7 @@ xlabel('$\textrm{Time}[s]$','fontsize',10,'interpreter','latex','Color',C18);
 ylabel('$[Error]$','fontsize',10,'interpreter','latex', 'Color',C18);
 
 %% Legend nomeclature
-hLegend_10 = legend([e_real_plot, e_new_plot],{'$||\tilde{\mathbf{x}}||_{Optimization}$','$||\tilde{\mathbf{x}}||_{Initial}$'},'fontsize',12,'interpreter','latex','Color',[255 255 255]/255,'Location','best','NumColumns',1,'TextColor','black');
+hLegend_10 = legend([e_real_plot, e_new_plot],{'$||\tilde{\mathbf{x}}||_{Initial}$','$||\tilde{\mathbf{x}}||_{Optimization}$'},'fontsize',12,'interpreter','latex','Color',[255 255 255]/255,'Location','best','NumColumns',1,'TextColor','black');
  set(gca,'ticklabelinterpreter','latex',...
          'fontsize',fontsizeTicks)
      
