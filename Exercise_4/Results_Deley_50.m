@@ -7,18 +7,18 @@ clc, clear all, close all;
 load("Data_Delay_4_real_50.mat")
 
 % Change dimentions in the variables
-q_m = q_m(:, 1:end-1);
-q_m_delay = q_m_delay(:, 1:end-1);
-q_s = q_s(:, 1:end-1);
-q_s_delay = q_s_delay(:, 1:end-1);
-x_m_base = x_m_base(:, 1:end-1);
-x_m_base_delay = x_m_base_delay(:, 1:end-1);
-x_s = x_s(:, 1:end-1);
-x_s_delay = x_s_delay(:, 1:end-1);
-xp_m = xp_m(:, 1:end-1);
-xp_m_delay = xp_m_delay(:,1:end-1);
-xp_s = xp_s(:, 1:end-1);
-xp_s_delay = xp_s_delay(:, 1:end-1);
+q_m = q_m(:, 1:end-1,:);
+q_m_delay = q_m_delay(:, 1:end-1,:);
+q_s = q_s(:, 1:end-1,:);
+q_s_delay = q_s_delay(:, 1:end-1,:);
+x_m_base = x_m_base(:, 1:end-1,:);
+x_m_base_delay = x_m_base_delay(:, 1:end-1,:);
+x_s = x_s(:, 1:end-1,:);
+x_s_delay = x_s_delay(:, 1:end-1,:);
+xp_m = xp_m(:, 1:end-1,:);
+xp_m_delay = xp_m_delay(:,1:end-1,:);
+xp_s = xp_s(:, 1:end-1,:);
+xp_s_delay = xp_s_delay(:, 1:end-1,:);
 
 % Parameters system values
 % System parameters L1 master
@@ -87,6 +87,208 @@ C15 = [244 171 39]/255;
 C16 = [100 121 162]/255;
 C17 = [255 0 0]/255;
 C18 = [0 0 0];
+
+figure('Position', [500 500 sizeX sizeY])
+set(gcf, 'Position', [500 500 sizeX sizeY]);
+fig1_comps.fig = gcf;
+
+
+axes('Position',[0.05 0.6 .42 0.35]);
+%% Data generation
+xp_m_delay_plot_a = line(t,xp_m_delay(1,:,1));
+set(xp_m_delay_plot_a, 'LineStyle', '-', 'Color', C1, 'LineWidth', lw*1.2);
+xp_s_delay_plot_a = line(t,xp_s_delay(1,:,1));
+set(xp_s_delay_plot_a, 'LineStyle', '--', 'Color', C2, 'LineWidth', lw);
+
+xp_m_delay_plot_b = line(t,xp_m_delay(1,:,2));
+set(xp_m_delay_plot_b, 'LineStyle', '-', 'Color', C3, 'LineWidth', lw*1.2);
+xp_s_delay_plot_b = line(t,xp_s_delay(1,:,2));
+set(xp_s_delay_plot_b, 'LineStyle', '--', 'Color', C4, 'LineWidth', lw);
+
+xp_m_delay_plot_c = line(t,xp_m_delay(1,:,3));
+set(xp_m_delay_plot_c, 'LineStyle', '-', 'Color', C5, 'LineWidth', lw*1.2);
+xp_s_delay_plot_c = line(t,xp_s_delay(1,:,3));
+set(xp_s_delay_plot_c, 'LineStyle', '--', 'Color', C6, 'LineWidth', lw);
+
+xp_m_delay_plot_d = line(t,xp_m_delay(1,:,4));
+set(xp_m_delay_plot_d, 'LineStyle', '-', 'Color', C7, 'LineWidth', lw*1.2);
+xp_s_delay_plot_d = line(t,xp_s_delay(1,:,4));
+set(xp_s_delay_plot_d, 'LineStyle', '--', 'Color', C8, 'LineWidth', lw);
+
+% fig1_comps.p1 = ul_plot;
+%% Title of the image
+%hTitle_1 = title({'$\textrm{(c)}$'},'fontsize',14,'interpreter','latex','Color',C18);
+xlabel('$\textrm{Time}[s]$','fontsize',10,'interpreter','latex','Color',C18);
+ylabel('$[m/s]$','fontsize',10,'interpreter','latex', 'Color',C18);
+
+%% Legend nomeclature
+hLegend_3 = legend([xp_s_delay_plot_a,xp_m_delay_plot_a, xp_s_delay_plot_b,xp_m_delay_plot_b, xp_s_delay_plot_c,xp_m_delay_plot_c, xp_s_delay_plot_d,xp_m_delay_plot_d],{'$^{a}\dot{x}_s(t-h_2)$','$^{a}\dot{x}_m(t-h_1)$','$^{b}\dot{x}_s(t-h_2)$','$^{b}\dot{x}_m(t-h_1)$', '$^{c}\dot{x}_s(t-h_2)$','$^{c}\dot{x}_m(t-h_1)$', '$^{d}\dot{x}_s(t-h_2)$','$^{d}\dot{x}_m(t-h_1)$'},'fontsize',12,'interpreter','latex','Color',[255 255 255]/255,'Location','best','NumColumns',2,'TextColor','black');
+ set(gca,'ticklabelinterpreter','latex',...
+         'fontsize',fontsizeTicks)
+     
+%% Figure properties
+ax_3 = gca;
+ax_3.Box = 'on';
+ax_3.BoxStyle = 'full';
+%ax_3.XTickLabel = [];
+ax_3.TickLength = [0.01;0.01];
+ax_3.TickDirMode = 'auto';
+ax_3.YMinorTick = 'on';
+ax_3.XMinorTick = 'on';
+ax_3.XMinorGrid = 'on';
+ax_3.YMinorGrid = 'on';
+
+%ax_1.MinorGridColor = '#8f8f8f';
+ax_3.MinorGridAlpha = 0.15;
+ax_3.LineWidth = 0.8;
+
+axes('Position',[0.52 0.6 .42 0.35]);
+%% Data generation
+yp_m_delay_plot_a = line(t,xp_m_delay(2,:,1));
+set(yp_m_delay_plot_a, 'LineStyle', '-', 'Color', C9, 'LineWidth', lw*1.2);
+yp_s_delay_plot_a = line(t,xp_s_delay(2,:,1));
+set(yp_s_delay_plot_a, 'LineStyle', '--', 'Color', C10, 'LineWidth', lw);
+
+yp_m_delay_plot_b = line(t,xp_m_delay(2,:,2));
+set(yp_m_delay_plot_b, 'LineStyle', '-', 'Color', C11, 'LineWidth', lw*1.2);
+yp_s_delay_plot_b = line(t,xp_s_delay(2,:,2));
+set(yp_s_delay_plot_b, 'LineStyle', '--', 'Color', C12, 'LineWidth', lw);
+
+yp_m_delay_plot_c = line(t,xp_m_delay(2,:,3));
+set(yp_m_delay_plot_c, 'LineStyle', '-', 'Color', C13, 'LineWidth', lw*1.2);
+yp_s_delay_plot_c = line(t,xp_s_delay(2,:,3));
+set(yp_s_delay_plot_c, 'LineStyle', '--', 'Color', C14, 'LineWidth', lw);
+
+yp_m_delay_plot_d = line(t,xp_m_delay(2,:,4));
+set(yp_m_delay_plot_d, 'LineStyle', '-', 'Color', C15, 'LineWidth', lw*1.2);
+yp_s_delay_plot_d = line(t,xp_s_delay(2,:,4));
+set(yp_s_delay_plot_d, 'LineStyle', '--', 'Color', C16, 'LineWidth', lw);
+
+% fig1_comps.p1 = ul_plot;
+%% Title of the image
+%hTitle_1 = title({'$\textrm{(c)}$'},'fontsize',14,'interpreter','latex','Color',C18);
+xlabel('$\textrm{Time}[s]$','fontsize',10,'interpreter','latex','Color',C18);
+ylabel('$[m/s]$','fontsize',10,'interpreter','latex', 'Color',C18);
+
+%% Legend nomeclature
+hLegend_4 = legend([yp_s_delay_plot_a,yp_m_delay_plot_a,yp_s_delay_plot_b,yp_m_delay_plot_b,yp_s_delay_plot_c,yp_m_delay_plot_c,yp_s_delay_plot_d,yp_m_delay_plot_d],{'$^{a}\dot{y}_s(t-h_2)$','$^{a}\dot{y}_m(t-h_1)$','$^{b}\dot{y}_s(t-h_2)$','$^{b}\dot{y}_m(t-h_1)$','$^{c}\dot{y}_s(t-h_2)$','$^{c}\dot{y}_m(t-h_1)$','$^{d}\dot{y}_s(t-h_2)$','$^{d}\dot{y}_m(t-h_1)$'},'fontsize',12,'interpreter','latex','Color',[255 255 255]/255,'Location','best','NumColumns',2,'TextColor','black');
+ set(gca,'ticklabelinterpreter','latex',...
+         'fontsize',fontsizeTicks)
+     
+%% Figure properties
+ax_4 = gca;
+ax_4.Box = 'on';
+ax_4.BoxStyle = 'full';
+ax_4.TickLength = [0.01;0.01];
+ax_4.TickDirMode = 'auto';
+ax_4.YMinorTick = 'on';
+ax_4.XMinorTick = 'on';
+ax_4.XMinorGrid = 'on';
+ax_4.YMinorGrid = 'on';
+%ax_1.MinorGridColor = '#8f8f8f';
+ax_4.MinorGridAlpha = 0.15;
+ax_4.LineWidth = 0.8;
+
+axes('Position',[0.05 0.2 .42 0.35]);
+%% Data generation
+xp_m_delay_plot_e = line(t,xp_m_delay(1,:,5));
+set(xp_m_delay_plot_e, 'LineStyle', '-', 'Color', C1, 'LineWidth', lw*1.2);
+xp_s_delay_plot_e = line(t,xp_s_delay(1,:,5));
+set(xp_s_delay_plot_e, 'LineStyle', '--', 'Color', C2, 'LineWidth', lw);
+
+xp_m_delay_plot_f = line(t,xp_m_delay(1,:,6));
+set(xp_m_delay_plot_f, 'LineStyle', '-', 'Color', C3, 'LineWidth', lw*1.2);
+xp_s_delay_plot_f = line(t,xp_s_delay(1,:,6));
+set(xp_s_delay_plot_f, 'LineStyle', '--', 'Color', C4, 'LineWidth', lw);
+
+xp_m_delay_plot_g = line(t,xp_m_delay(1,:,7));
+set(xp_m_delay_plot_g, 'LineStyle', '-', 'Color', C5, 'LineWidth', lw*1.2);
+xp_s_delay_plot_g = line(t,xp_s_delay(1,:,7));
+set(xp_s_delay_plot_g, 'LineStyle', '--', 'Color', C6, 'LineWidth', lw);
+
+xp_m_delay_plot_h = line(t,xp_m_delay(1,:,8));
+set(xp_m_delay_plot_h, 'LineStyle', '-', 'Color', C7, 'LineWidth', lw*1.2);
+xp_s_delay_plot_h = line(t,xp_s_delay(1,:,8));
+set(xp_s_delay_plot_h, 'LineStyle', '--', 'Color', C8, 'LineWidth', lw);
+
+% fig1_comps.p1 = ul_plot;
+%% Title of the image
+%hTitle_1 = title({'$\textrm{(c)}$'},'fontsize',14,'interpreter','latex','Color',C18);
+xlabel('$\textrm{Time}[s]$','fontsize',10,'interpreter','latex','Color',C18);
+ylabel('$[m/s]$','fontsize',10,'interpreter','latex', 'Color',C18);
+
+%% Legend nomeclature
+hLegend_3 = legend([xp_s_delay_plot_e,xp_m_delay_plot_e, xp_s_delay_plot_f,xp_m_delay_plot_f, xp_s_delay_plot_g,xp_m_delay_plot_g, xp_s_delay_plot_h,xp_m_delay_plot_h],{'$^{e}\dot{x}_s(t-h_2)$','$^{e}\dot{x}_m(t-h_1)$','$^{f}\dot{x}_s(t-h_2)$','$^{f}\dot{x}_m(t-h_1)$', '$^{g}\dot{x}_s(t-h_2)$','$^{g}\dot{x}_m(t-h_1)$', '$^{h}\dot{x}_s(t-h_2)$','$^{h}\dot{x}_m(t-h_1)$'},'fontsize',12,'interpreter','latex','Color',[255 255 255]/255,'Location','best','NumColumns',2,'TextColor','black');
+ set(gca,'ticklabelinterpreter','latex',...
+         'fontsize',fontsizeTicks)
+     
+%% Figure properties
+ax_3 = gca;
+ax_3.Box = 'on';
+ax_3.BoxStyle = 'full';
+%ax_3.XTickLabel = [];
+ax_3.TickLength = [0.01;0.01];
+ax_3.TickDirMode = 'auto';
+ax_3.YMinorTick = 'on';
+ax_3.XMinorTick = 'on';
+ax_3.XMinorGrid = 'on';
+ax_3.YMinorGrid = 'on';
+
+%ax_1.MinorGridColor = '#8f8f8f';
+ax_3.MinorGridAlpha = 0.15;
+ax_3.LineWidth = 0.8;
+
+axes('Position',[0.52 0.2 .42 0.35]);
+%% Data generation
+yp_m_delay_plot_e = line(t,xp_m_delay(2,:,5));
+set(yp_m_delay_plot_e, 'LineStyle', '-', 'Color', C9, 'LineWidth', lw*1.2);
+yp_s_delay_plot_e = line(t,xp_s_delay(2,:,5));
+set(yp_s_delay_plot_e, 'LineStyle', '--', 'Color', C10, 'LineWidth', lw);
+
+yp_m_delay_plot_f = line(t,xp_m_delay(2,:,6));
+set(yp_m_delay_plot_f, 'LineStyle', '-', 'Color', C11, 'LineWidth', lw*1.2);
+yp_s_delay_plot_f = line(t,xp_s_delay(2,:,6));
+set(yp_s_delay_plot_f, 'LineStyle', '--', 'Color', C12, 'LineWidth', lw);
+
+yp_m_delay_plot_g = line(t,xp_m_delay(2,:,7));
+set(yp_m_delay_plot_g, 'LineStyle', '-', 'Color', C13, 'LineWidth', lw*1.2);
+yp_s_delay_plot_g = line(t,xp_s_delay(2,:,7));
+set(yp_s_delay_plot_g, 'LineStyle', '--', 'Color', C14, 'LineWidth', lw);
+
+yp_m_delay_plot_h = line(t,xp_m_delay(2,:,8));
+set(yp_m_delay_plot_h, 'LineStyle', '-', 'Color', C15, 'LineWidth', lw*1.2);
+yp_s_delay_plot_h = line(t,xp_s_delay(2,:,8));
+set(yp_s_delay_plot_h, 'LineStyle', '--', 'Color', C16, 'LineWidth', lw);
+
+% fig1_comps.p1 = ul_plot;
+%% Title of the image
+%hTitle_1 = title({'$\textrm{(c)}$'},'fontsize',14,'interpreter','latex','Color',C18);
+xlabel('$\textrm{Time}[s]$','fontsize',10,'interpreter','latex','Color',C18);
+ylabel('$[m/s]$','fontsize',10,'interpreter','latex', 'Color',C18);
+
+%% Legend nomeclature
+hLegend_4 = legend([yp_s_delay_plot_e,yp_m_delay_plot_e,yp_s_delay_plot_f,yp_m_delay_plot_f,yp_s_delay_plot_g,yp_m_delay_plot_g,yp_s_delay_plot_h,yp_m_delay_plot_h],{'$^{e}\dot{y}_s(t-h_2)$','$^{e}\dot{y}_m(t-h_1)$','$^{f}\dot{y}_s(t-h_2)$','$^{f}\dot{y}_m(t-h_1)$','$^{g}\dot{y}_s(t-h_2)$','$^{g}\dot{y}_m(t-h_1)$','$^{h}\dot{y}_s(t-h_2)$','$^{h}\dot{y}_m(t-h_1)$'},'fontsize',12,'interpreter','latex','Color',[255 255 255]/255,'Location','best','NumColumns',2,'TextColor','black');
+ set(gca,'ticklabelinterpreter','latex',...
+         'fontsize',fontsizeTicks)
+     
+%% Figure properties
+ax_4 = gca;
+ax_4.Box = 'on';
+ax_4.BoxStyle = 'full';
+ax_4.TickLength = [0.01;0.01];
+ax_4.TickDirMode = 'auto';
+ax_4.YMinorTick = 'on';
+ax_4.XMinorTick = 'on';
+ax_4.XMinorGrid = 'on';
+ax_4.YMinorGrid = 'on';
+%ax_1.MinorGridColor = '#8f8f8f';
+ax_4.MinorGridAlpha = 0.15;
+ax_4.LineWidth = 0.8;
+
+set(gcf, 'Color', 'w'); % Sets axes background
+export_fig Results_delay_signals_4_50.pdf -q101
+
+
 
 figure('Position', [500 500 sizeX sizeY])
 set(gcf, 'Position', [500 500 sizeX sizeY]);
