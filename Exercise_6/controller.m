@@ -207,7 +207,7 @@ classdef controller < matlab.mixin.SetGet
             
             
             % Control law
-            u = J_t*(Gx + obj.Kp_tele*(xe) - obj.Kv_tele*(xp) + (kf)*Force);
+            u = J_t*(Gx + obj.Kp_tele*(xe) - obj.Kv_tele*(xp) - (2/pi)*(0.01*norm(xd(1:2),2)^2+0.1)*atan(1*xp) + (kf)*Force);
             
         end
         
@@ -219,14 +219,21 @@ classdef controller < matlab.mixin.SetGet
             
             % Matrices of the system
             G = obj.pendulum.get_G_matrix(x_q);
+            C = obj.pendulum.get_C_matrix(x_q);
+            M = obj.pendulum.get_M_matrix(x_q);
+            F = obj.pendulum.get_F_matrix(x_q);
+            
             J_t = obj.pendulum.get_Jacobian_t(x_q);
+            J = obj.pendulum.get_Jacobian_p(x_q);
+            J_dot = obj.pendulum.get_Jacobian_dot(x_q);
+            
+            Mx = inv(J_t)*M*inv(J);
+            Cx = inv(J_t)*C*inv(J) - Mx*J_dot*inv(J) + inv(J_t)*F*inv(J);
             Gx = inv(J_t)*G;
-            % Error In matrices
             
-            
-            
+
             % Control law
-            u = J_t*(Gx + obj.Kp_tele*(xe) - obj.Kv_tele*(xp) + (1/kf)*Force);
+            u = J_t*(Gx + obj.Kp_tele*(xe) - obj.Kv_tele*(xp) + (1/kf)*Force + Cx*xp);
             
         end
         

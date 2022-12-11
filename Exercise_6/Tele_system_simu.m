@@ -155,7 +155,7 @@ xep = zeros(2, length(t));
 
 
 % External Force Reaction
-x_enviroment_c = (-0.1:0.01:0.1);
+x_enviroment_c = (-0.05:0.01:0.05);
 x_enviroment_c(2, :, 1) = 0*ones(1, length(x_enviroment_c));
 
 % Location New Axis Enviroment
@@ -248,10 +248,10 @@ aux_frames = ones(1, length(t)+1);
 
 % Operator Gains
 wn_h = sqrt(kp_h);
-kv_h = 3*1*wn_h
+kv_h = 3*1*wn_h;
 
 KP_h = kp_h*eye(2);
-KD_h = kv_h*eye(2);
+KD_h = kv_h*eye(2)
 
 % Enviroments Gains
 Ke = kp_e*eye(2);
@@ -318,11 +318,11 @@ for k = 1:length(t)
     xep(:, k) = xdp_i(:, k) - robot_s.get_general_velocities();
     
     % Operator Law
-    F_h(:, k) = KP_h*(xd_i(:,k) - x_s_delay(:, k)) - KD_h*xp_m(:, k);
+    F_h(:, k) = KP_h*(xd_i(:,k) - x_s_delay(:, k)) - KD_h*xp_m(:, k) - 0.05*KP_h*x_m_base(:, k);
     
     % Control action
-    u_cartesian_s(:, k) = control_s.get_control_tele_cartesian_force_slave(q_s(:,k), x_s(:, k), xp_s(:, k), x_m_base_delay(:, k), F_h(:,k), 1);
-    u_cartesian_m(:, k) = control_m.get_control_tele_cartesian_force_master(q_m(:, k), x_m_base(:, k), xp_m(:,k),  x_s_delay(:, k),F_enviroment(:, k), 1);
+    u_cartesian_s(:, k) = control_s.get_control_tele_cartesian_force_slave(q_s(:,k), x_s(:, k), xp_s(:, k), x_m_base_delay(:, k), F_h(:, k), 1);
+    u_cartesian_m(:, k) = control_m.get_control_tele_cartesian_force_master(q_m(:, k), x_m_base(:, k), xp_m(:,k),  x_s_delay(:, k), F_enviroment(:,k), 1);
     
     U_s = [U_s;u_cartesian_s(:, k)];
     U_m = [U_m;u_cartesian_m(:, k)];
@@ -344,7 +344,7 @@ for k = 1:length(t)
         q_s_delay(:, k+n_frames_s(k+1)+1:end) = q_s(:, k + 1)*aux_frames(1, k+n_frames_s(k+1)+1:end); 
         x_s_delay(:, k+n_frames_s(k+1)+1:end) = x_s(:, k + 1)*aux_frames(1, k+n_frames_s(k+1)+1:end);
         xp_s_delay(:, k+n_frames_s(k+1)+1:end) = xp_s(:, k+1)*aux_frames(1, k+n_frames_s(k+1)+1:end);
-        F_e_delay(:, k+n_frames_s(k+1)+1:end) = F_enviroment(:, k+1)*aux_frames(1, k+n_frames_s(k+1)+1:end);
+        F_e_delay(:, k+n_frames_s(k+1)+1:end) = F_enviroment(:, k)*aux_frames(1, k+n_frames_s(k+1)+1:end);
      end
      
      if k + n_frames_m(k+1) < (length(t)+ 1)
@@ -364,7 +364,7 @@ RMSE_y_s = sqrt(mean((he(2,:)).^2));
 
 E = 0.1*(U_s'*U_s) + 0.1*(U_m'*U_m) + (He_m'*He_m) + (He_s'*He_s) + 0.7*(Qxp_m'*Qxp_m) + 0.7*(Qxp_s'*Qxp_s);
 
-for k = 1:10:length(t)
-    drawpend2(q_s_delay(:, k), m1_s, m2_s, 0.3, l1_s, l2_s, q_m_delay(:, k), m1_m, m2_m, 0.3, l1_m, l2_m, x_m_0, x_enviroment_i(:, :), xd_i(:,k));
-end
+% for k = 1:10:length(t)
+%     drawpend2(q_s_delay(:, k), m1_s, m2_s, 0.3, l1_s, l2_s, q_m_delay(:, k), m1_m, m2_m, 0.3, l1_m, l2_m, x_m_0, x_enviroment_i(:, :), xd_i(:,k));
+% end
 end
